@@ -1038,7 +1038,8 @@ void SurfaceFlinger::init() FTL_FAKE_GUARD(kMainThreadContext) {
                         static_cast<void>(mScheduler->schedule([=,
                                                                 this]() FTL_FAKE_GUARD(mStateLock) {
                             if (const auto display = getDisplayDeviceLocked(displayId)) {
-                                display->updateRefreshRateOverlayRate(vsyncRate, renderRate);
+                                const auto activeMode = display->refreshRateSelector().getActiveMode();
+                                display->updateRefreshRateOverlayRate(activeMode.fps, renderRate);
                             }
                         }));
                     }));
